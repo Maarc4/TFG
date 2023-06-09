@@ -1,0 +1,15 @@
+{
+  "name": "codi",
+  "displayName": "codi",
+  "permissions": [
+    "SYSTEM_ALERT_WINDOW",
+    "INTERNET",
+    "ACCESS_FINE_LOCATION",
+    "ACCES_COARSE_LOCATION",
+    "ACCESS_WIFI_STATE",
+    "WRITE_EXTERNAL_STORAGE",
+    "READ_EXTERNAL_STORAGE",
+    "CAMERA",
+    "RECORD_AUDIO"
+  ]
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Camina i Respira</string>
+    <string name="mapbox_access_token">sk.eyJ1IjoicnVzdGlkb3IiLCJhIjoiY2w5eWkzdmV2MDU2NDN5bHR4c29kcXdkeCJ9._m_F_vcGdWPh8RBC5dbrPA</string>
+</resources>
