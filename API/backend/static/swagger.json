@@ -1,0 +1,386 @@
+{
+  "openapi": "3.0.0",
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Options about accounts"
+    },
+    {
+      "name": "Routes",
+      "description": "Access to routes information"
+    },
+    {
+      "name": "Ratings",
+      "description": "Options about ratings"
+    },
+    {
+      "name": "Reports",
+      "description": "Options about reports"
+    }
+  ],
+  "definitions": {
+    "User": {
+      "name": "Albert",
+      "email": "albert@example.com",
+      "edat": 25,
+      "password": "albert99"
+    }
+  },
+  "paths": {
+    "/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Returns accounts list",
+        "security": {
+          "basicAuth": []
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: No accounts found"
+          }
+        }
+      }
+    },
+    "/account/{email}": {
+      "parameters": [
+        {
+          "name": "email",
+          "in": "path",
+          "required": true,
+          "description": "email of the account",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Return account by email",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Account not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "description": "The email of the user",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "description": "JSON of user object",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "edat": {
+                  "type": "integer"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "summary": "Update account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Account not found"
+          }
+        }
+      }
+    },
+    "/account": {
+      "arguments": [
+        {
+          "name": "email",
+          "in": "path",
+          "required": true,
+          "description": "email of the account",
+          "type": "string"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create new account",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Delete account",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "description": "User email and password",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Account not found"
+          }
+        }
+      }
+    },
+    "/routes": {
+      "get": {
+        "tags": [
+          "Routes"
+        ],
+        "summary": "Returns routes list",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: No routes found"
+          }
+        }
+      }
+    },
+    "/route/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "id of the route",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Routes"
+        ],
+        "summary": "Returns route by id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Route not found"
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "summary": "Returns ratings list",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: No ratings found"
+          }
+        }
+      }
+    },
+    "/rating":{
+      "post": {
+        "tags": [
+          "Ratings"
+        ],
+        "summary": "Create new rating",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "ERROR: Body field incorrect"
+          }
+        },
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "description": "JSON of rating object",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "route_id": {
+                  "type": "string"
+                },
+                "stars": {
+                  "type": "integer"
+                },
+                "comment": {
+                  "type": "string",
+                  "required": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/rating/{user_id}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "summary": "Returns all the ratings made by an user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: User not found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "description": "id of the account",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/reports": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Returns reports list",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: No reports found"
+          }
+        }
+      }
+    },
+    "/report":{
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Create new report",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "ERROR: Body field x incorrect"
+          }
+        },
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "description": "JSON of report object",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "route_id": {
+                  "type": "string"
+                },
+                "coordenadas": {
+                  "type": "string"
+                },
+                "report_type": {
+                  "type": "integer"
+                },
+                "comment": {
+                  "type": "string",
+                  "required": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/report/{route_id}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Returns all the reports of a route",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR: Route not found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "route_id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the rotue",
+            "type": "integer"
+          }
+        ]
+      }
+    }
+  }
+}
