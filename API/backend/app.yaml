@@ -1,7 +1,7 @@
 runtime: python311
 env_variables:
   PORT: 5001
-entrypoint: gunicorn -b :$PORT -w 2 app:app
+# entrypoint: gunicorn -b :$PORT -w 2 app:app
 handlers:
   # This configures Google App Engine to serve the files in the app's static
   # directory.
