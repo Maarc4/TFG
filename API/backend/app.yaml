@@ -13,4 +13,4 @@ env_variables:
 - url: /.*
   script: auto
   
-entrypoint: gunicorn -b :$PORT -w 2 main:app
+entrypoint: gunicorn -b :$PORT -w 2 app:app
