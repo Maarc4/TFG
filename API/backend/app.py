@@ -62,6 +62,6 @@ with app.app_context():
     api.add_resource(ReportsList, '/reports')
 
     if __name__ == "__main__":
-        # db_circular_routes(app, db)
+        db_circular_routes(app, db)
         # db_zonas_verdas_routes(app, db)
         app.run(port=5001, debug=False)
