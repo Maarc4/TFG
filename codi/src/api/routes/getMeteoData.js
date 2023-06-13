@@ -41,7 +41,7 @@ export const getForecastData = async (time) => {
       response = await axios.request(options);
       rainValue = response.data.dies[time.day].variables.precipitacio.valor[time.hour].valor;
       tempXafogor = response.data.dies[time.day].variables.tempXafogor.valors[time.hour].valor;
-      let expireAt = getExpire24h()
+      let expireAt = getExpire6h()
       const forecastData = JSON.stringify({ expireAt, rainValue, tempXafogor });
 
       AsyncStorage.setItem('meteoData3', forecastData);
@@ -60,9 +60,9 @@ export const getForecastData = async (time) => {
 *
 * @returns {Date}
 */
-const getExpire24h = () => {
+const getExpire6h = () => {
   const now = new Date();
   let expireTime = new Date(now);
-  expireTime.setHours(now.getHours() + 24);
+  expireTime.setHours(now.getHours() + 6);
   return expireTime;
 }

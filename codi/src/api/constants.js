@@ -1,6 +1,6 @@
 export const BASE_URL_API = 'http://127.0.0.1:5001/'; // Fer adb reverse tcp:5001 tcp:5001 a la terminal
 // export const BASE_URL_API = 'http://10.0.2.2:5001/';
-// export const BASE_URL_API = 'https://tfg-rutes-saludables-api.herokuapp.com'
+// export const BASE_URL_API = 'https://everywalkyoutake.azurewebsites.net/'
 
 export const URL_AIR_QUALITY = 'https://api.ambeedata.com/latest/by-lat-lng';
 

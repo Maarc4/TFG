@@ -1,79 +1,71 @@
-// import ImagePicker from 'react-native-image-picker';
-// // import { Storage } from '@google-cloud/storage';
-
-// // Example for selecting an image and uploading to Google Cloud Storage
-// ImagePicker.showImagePicker(options, async (response) => {
-//   if (response.didCancel) {
-//     console.log('User cancelled image picker');
-//   } else if (response.error) {
-//     console.log('ImagePicker Error: ', response.error);
-//   } else {
-//     // Handle the selected image
-//     const { uri, type, fileName } = response;
-//     console.log(uri, type, fileName)
-//     // Upload the image to Google Cloud Storage
-//     // const storage = new Storage();
-//     // const bucket = storage.bucket('your-bucket-name');
-//     // const file = bucket.file(fileName);
-
-//     // await file.save(uri, {
-//     //   contentType: type,
-//     // });
-
-//     const imageUrl = file.publicUrl();
-//     // Save the image URL in the database
-//   }
-// });
-// CameraComponent.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { request, PERMISSIONS } from 'react-native-permissions';
 
-export default function CameraComponent() {
-  const [selectedImage, setSelectedImage] = useState(null);
+export default function CameraComponent({ selectedImage, setSelectedImage }) {
+  const [storagePermission, setStoragePermission] = useState('');
+
+  useEffect(() => {
+    checkStoragePermission();
+  }, []);
+
+  const checkStoragePermission = async () => {
+    const status = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
+    setStoragePermission(status);
+  };
 
   const handleCameraLaunch = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchCamera(options, (res) => {
-      console.log('Response = ', res);
-      if (res.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
-      } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
-        alert(res.customButton);
-      } else {
-        setSelectedImage(res.assets[0]);
-      }
-    });
+    if (storagePermission === 'granted') {
+      let options = {
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+        saveToPhotos: true
+      };
+      launchCamera(options, (res) => {
+        console.log('Response = ', res);
+        if (res.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (res.error) {
+          console.log('ImagePicker Error: ', res.error);
+        } else if (res.customButton) {
+          console.log('User tapped custom button: ', res.customButton);
+          alert(res.customButton);
+        } else {
+          setSelectedImage(res.assets[0]);
+        }
+      });
+    } else {
+      console.log('Storage permission not granted');
+    }
   };
 
   const handleImageGalleryLaunch = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchImageLibrary(options, (res) => {
-      console.log('Response = ', res);
-      if (res.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
-      } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
-        alert(res.customButton);
-      } else {
-        setSelectedImage(res.assets[0]);
-      }
-    });
+    if (storagePermission === 'granted') {
+      let options = {
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+      };
+      launchImageLibrary(options, (res) => {
+        console.log('Response = ', res);
+        if (res.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (res.error) {
+          console.log('ImagePicker Error: ', res.error);
+        } else if (res.customButton) {
+          console.log('User tapped custom button: ', res.customButton);
+          alert(res.customButton);
+        } else {
+          setSelectedImage(res.assets[0]);
+        }
+      });
+    } else {
+      console.log('Storage permission not granted');
+    }
   };
 
   return (
@@ -105,7 +97,7 @@ const styles2 = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    marginBottom:40,
+    marginBottom: 40,
   },
   image: {
     width: 150,
@@ -116,7 +108,7 @@ const styles2 = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  btnCamera:{
+  btnCamera: {
     backgroundColor: 'blue',
     paddingHorizontal: 20,
     paddingVertical: 10,

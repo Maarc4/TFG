@@ -31,7 +31,7 @@ const InfoRoute = ({ setShowInfo, infoRoute, setStartRoute, setSideBar }) => {
     // if (infoRoute[3] !== undefined) { infoRoute[3].tempXafogor = 22; }
     return (
         <>
-            <View style={{ position: 'absolute', justifyContent: 'flex-end', bottom: 0, width: '98%', height: '110%', marginLeft: '1%', borderRadius: 20, marginBottom: 4 }}>
+            <View style={{ position: 'absolute', justifyContent: 'flex-end', bottom: 0, width: '98%', height: '130%', marginLeft: '1%', borderRadius: 20, marginBottom: 4 }}>
                 {/* Componente de adverténcias cuando hay contaminación, lluvia y/o calor/frio */}
                 {(infoRoute[1] > 100 || (infoRoute[3] !== undefined && infoRoute[3].forecast > 15) || (infoRoute[3] !== undefined && (infoRoute[3].tempXafogor <= 10 || infoRoute[3].tempXafogor >= 30))) && <View style={{ alignSelf: 'center', width: '65%', height: '15%', backgroundColor: '#F0ECEB', marginBottom: '3%', borderColor: 'red', borderWidth: 1.2, paddingTop: 5 }}>
                     <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold', paddingBottom: 10, alignSelf: 'center' }}>ATENCIÓ!</Text>

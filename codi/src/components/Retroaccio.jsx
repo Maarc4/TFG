@@ -5,10 +5,10 @@ import { postIncidencia } from '../api/routes/incidencies';
 import CameraComponent from './CameraComponent';
 
 export default function Popup({ setShowPopup, route_id, coords }) {
-  console.log("IN RETRO")
   const [reportType, setReportType] = useState(null);
   const [comment, setComment] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleReportPopupClose = () => {
     setShowPopup(false);
@@ -31,7 +31,7 @@ export default function Popup({ setShowPopup, route_id, coords }) {
 
   const handleReportSubmit = () => {
     try {
-      postIncidencia(route_id, coords, reportType, comment)
+      postIncidencia(route_id, coords, reportType, comment, selectedImage)
     } catch (error) {
       console.log(error)
       console.log("ERROR AL POST INCIDENCIA UIStartedRoute.jsx")
@@ -90,7 +90,7 @@ export default function Popup({ setShowPopup, route_id, coords }) {
                 placeholder="Escribe tus comentarios aquí"
               />
             )}
-            {selectedOption === "photo" && <CameraComponent />}
+            {selectedOption === "photo" && <CameraComponent selectedImage={selectedImage}  setSelectedImage={setSelectedImage}/>}
           </View>
           <View style={styles.popupButtonsContainer}>
             <Pressable style={[styles.popupButton, styles.popupButtonCancel]} onPress={() => handleReportPopupClose()}>

@@ -15,13 +15,15 @@ class ReportModel(db.Model):
     report_type = db.Column(db.String(100), nullable=False)
     comment = db.Column(db.String(500))
     coordenadas = db.Column(db.Text())
+    image_url = db.Column(db.String(150))
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
 
-    def __init__(self, route_id, report_type, comment, coordenadas):
+    def __init__(self, route_id, report_type, comment, coordenadas, image_url):
         self.route_id = route_id
         self.report_type = report_type
         self.comment = comment
         self.coordenadas = coordenadas
+        self.image_url = image_url
         self.date = datetime.utcnow()
 
     def json(self):
@@ -31,6 +33,7 @@ class ReportModel(db.Model):
             'report_type': self.report_type,
             'coordenadas': self.coordenadas,
             'comment': self.comment,
+            'image_url': self.image_url,
             'date': self.date.strftime('%Y-%m-%d %H:%M')
         }
 

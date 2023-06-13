@@ -42,7 +42,7 @@ export const getRouteAirQuality = async (coordinates) => {
             response = await axios.request(options)
             aqi = response.data.stations[0].AQI;
             aqi = aqi.toString()
-            let expireAt = getExpire24h()
+            let expireAt = getExpire6h()
             const airData = JSON.stringify({expireAt, aqi}); 
             await AsyncStorage.setItem('airData4', airData);
             return airData
@@ -58,10 +58,10 @@ export const getRouteAirQuality = async (coordinates) => {
 *
 * @returns {Date}
 */
-const getExpire24h = () => {
+const getExpire6h = () => {
     const now = new Date();
     let expireTime = new Date(now);
-    expireTime.setHours(now.getHours() + 24);
+    expireTime.setHours(now.getHours() + 6);
     return expireTime;
   }
 //     if (lastRequest == null || lastRequest > cacheExpiryTime) {

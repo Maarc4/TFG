@@ -12,7 +12,7 @@ from resources.Route import Routes
 from resources.RouteList import RoutesList
 from resources.Login import Login
 from resources.Ratings import Ratings, RatingsList
-from resources.Reports import Reports, ReportsList
+from resources.Reports import Reports, ReportsList, ReportsImage
 from functools import wraps
 
 from add_routes import db_circular_routes, db_zonas_verdas_routes
@@ -60,8 +60,9 @@ with app.app_context():
     api.add_resource(RatingsList, '/ratings')
     api.add_resource(Reports, '/report/<int:route_id>', '/report')
     api.add_resource(ReportsList, '/reports')
-
+    api.add_resource(ReportsImage, '/upload')
+    
     if __name__ == "__main__":
-        db_circular_routes(app, db)
+        # db_circular_routes(app, db)
         # db_zonas_verdas_routes(app, db)
         app.run(port=5001, debug=False)
