@@ -9,6 +9,7 @@ import { SideBar } from '../components/Sidebar.jsx'
 import { Header } from '../components/Header.jsx'
 import { ReviewCard } from '../components/Card.jsx'
 import { SaveRoute } from '../components/SaveRoute.jsx'
+import Retroaccio from '../components/Retroaccio';
 
 
 const Main = ({ navigation, userData, sideBar, setSideBar, logged, setLogged, startRoute, setStartRoute, endedRoute, setEndedRoute, setFromSideBar }) => {
@@ -19,6 +20,7 @@ const Main = ({ navigation, userData, sideBar, setSideBar, logged, setLogged, st
     const [locationUser, setLocationUser] = useState([1, 2]);
     const [isLoading, setIsLoading] = useState(false);
     const [reptesInfo, setReptesInfo] = useState([])
+    const [showPopup, setShowPopup] = useState(false)
 
     const backAction = () => {
         // No queremos que vuelva a la pantalla de inicio de session al darle atrás, le lleva al inicio
@@ -38,14 +40,15 @@ const Main = ({ navigation, userData, sideBar, setSideBar, logged, setLogged, st
 
     return (
         <>
-            {!startRoute && <Header navigation={navigation} sideBar={sideBar} setSideBar={setSideBar} />}
+            {!startRoute && !showPopup &&  <Header navigation={navigation} sideBar={sideBar} setSideBar={setSideBar} />}
             <View style={{
                 flex: 1
             }}>
                 {<MapBoxView showRoutes={showRoutes} setShowInfo={setShowInfo} setInfoRoute={setInfoRoute} infoRoute={infoRoute} filterData={filterData} startRoute={startRoute} setStartRoute={setStartRoute} setEndedRoute={setEndedRoute} setIsLoading={setIsLoading} setSideBar={setSideBar} locationUser={locationUser} setLocationUser={setLocationUser} />}
-                {!startRoute && <Dropdowns setShowInfo={setShowInfo} setShowRoutes={setShowRoutes} setFilterData={setFilterData} isLoading={isLoading} setSideBar={setSideBar} />}
+                {!startRoute && !showPopup && <Dropdowns setShowInfo={setShowInfo} setShowRoutes={setShowRoutes} setFilterData={setFilterData} isLoading={isLoading} setSideBar={setSideBar} />}
                 {showInfo && <InfoRoute setShowInfo={setShowInfo} infoRoute={infoRoute} setStartRoute={setStartRoute} setSideBar={setSideBar} />}
-                {startRoute && <UIStartedRoute setEndedRoute={setEndedRoute} setStartRoute={setStartRoute} coords={locationUser} route_id={infoRoute[4]} />}
+                {startRoute && <UIStartedRoute showPopup={showPopup} setShowPopup={setShowPopup} setEndedRoute={setEndedRoute} setStartRoute={setStartRoute} coords={locationUser} route_id={infoRoute[4]} />}
+                {showPopup && <Retroaccio setShowPopup={setShowPopup} route_id={infoRoute[4]} coords={locationUser} />}
                 {logged && endedRoute && filterData[2] !== "AUTO" && <ReviewCard userData={userData} setEndedRoute={setEndedRoute} route_id={infoRoute[4]} />}
                 {logged && endedRoute && filterData[2] === "AUTO" && userData.n_saved_routes < 3 && <SaveRoute infoRoute={infoRoute} userData={userData} setEndedRoute={setEndedRoute} />}
                 {sideBar && <SideBar navigation={navigation} logged={logged} setLogged={setLogged} setSideBar={setSideBar} setFromSideBar={setFromSideBar} userData={userData} />}

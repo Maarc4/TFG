@@ -5,21 +5,22 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { postIncidencia } from '../api/routes/incidencies';
 import Retroaccio from '../components/Retroaccio';
 
-export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id }) => {
+export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id, showPopup, setShowPopup}) => {
   const [currentTime, setCurrentTime] = useState(0)
   const [showDisclaimerRetroaccio, setShowDisclaimerRetroaccio] = useState(true)
   const [showDisclaimerRetroaccioFinalRuta, setShowDisclaimerRetroaccioFinalRuta] = useState(true)
   const [stopwatchStart, setStopwatchStart] = useState(true)
   const [stopwatchReset, setStopwatchReset] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
 
 
   useEffect(() => {
-    { showDisclaimerRetroaccio && disclaimerRetroaccio() }
+    showDisclaimerRetroaccio && disclaimerRetroaccio();
   }, [])
+
   const getFormattedTime = (time) => {
     setCurrentTime(time);
   };
+
   const disclaimerRetroaccio = () => {
     console.log("Disclaimer retro")
     return (
@@ -28,6 +29,7 @@ export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id 
       ])
     );
   }
+
   const disclaimerRetroaccioFinalRuta = () => {
     console.log("Disclaimer retro final")
     return (
@@ -36,12 +38,16 @@ export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id 
         "Enhorabona, has finalitzat la ruta. La ruta estava en bon estat? En cas de clicar NO, podries omplir la següent informació?",
         [
           { text: "NO CONTESTAR", onPress: () => console.log("Cancel button pressed") },
-          { text: "SI", onPress: () => "HERE"},
-          { text: "NO", onPress: () => setShowPopup(true) }
+          { text: "SI", onPress: () => {} },
+          { text: "NO", onPress: () => {
+            setShowDisclaimerRetroaccioFinalRuta(false);
+            setShowPopup(true);
+          }}
         ]
       )
     );
   }
+
   const endRoute = () => {
     return (
       Alert.alert("Ep, un moment!", "Estas segur que vols acabar la ruta?", [
@@ -52,9 +58,9 @@ export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id 
         },
         {
           text: "SORTIR", onPress: () => {
-            { showDisclaimerRetroaccioFinalRuta && disclaimerRetroaccioFinalRuta() }
-            setStartRoute(false)
-            setEndedRoute(true)
+            disclaimerRetroaccioFinalRuta();
+            setStartRoute(false);
+            setEndedRoute(true);
           }
         }
       ])
@@ -65,22 +71,24 @@ export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id 
     setShowPopup(true);
   };
 
-
   return (
     <>
       <View style={styles.container}>
-
         <View style={styles.stopwatchContainer}>
-          <Stopwatch laps start={stopwatchStart}
+          <Stopwatch
+            laps
+            start={stopwatchStart}
             reset={stopwatchReset}
             options={options}
-            getTime={getFormattedTime} />
+            getTime={getFormattedTime}
+          />
         </View>
         <View>
           <Pressable
             style={styles.btnReport}
-            onPress={() => handleReportButtonPress()}
-            accessibilityLabel="Learn more about this purple button">
+            onPress={handleReportButtonPress}
+            accessibilityLabel="Learn more about this purple button"
+          >
             <Text style={styles.btnText}>DONAR RETROACCIÓ</Text>
           </Pressable>
         </View>
@@ -89,19 +97,30 @@ export const UIStartedRoute = ({ setEndedRoute, setStartRoute, coords, route_id 
         <Pressable
           style={styles.btnPause}
           onPress={() => setStopwatchStart(!stopwatchStart)}
-          accessibilityLabel="Learn more about this purple button">
-          <Text style={styles.btnText}>{stopwatchStart ? "Pausar ruta" : "Reanudar ruta"}</Text>
+          accessibilityLabel="Learn more about this purple button"
+        >
+          <Text style={styles.btnText}>
+            {stopwatchStart ? "Pausar ruta" : "Reanudar ruta"}
+          </Text>
         </Pressable>
         <Pressable
           style={styles.btnExit}
-          onPress={() => endRoute()}
-          accessibilityLabel="Learn more about this purple button">
+          onPress={endRoute}
+          accessibilityLabel="Learn more about this purple button"
+        >
           <Text style={styles.btnText}>SORTIR DE LA RUTA</Text>
         </Pressable>
       </View>
-      {!stopwatchStart && <Pressable style={styles.modalPause} onPress={() => setStopwatchStart(true)}><Icon name="play" size={40} color="black" /></Pressable>}
+      {!stopwatchStart && (
+        <Pressable
+          style={styles.modalPause}
+          onPress={() => setStopwatchStart(true)}
+        >
+          <Icon name="play" size={40} color="black" />
+        </Pressable>
+      )}
       {showPopup && <Retroaccio setShowPopup={setShowPopup} route_id={route_id} coords={coords} />}
-      </>
+    </>
   )
 }
 
