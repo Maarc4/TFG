@@ -381,6 +381,31 @@
           }
         ]
       }
+    },
+    "/upload": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Uploads an image to Azure Blob Storage",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "ERROR"
+          }
+        },
+        "parameters": [
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "description": "formdata with image, filename",
+            "type": "formdata"
+          }
+        ]
+      }
     }
   }
 }
