@@ -10,7 +10,7 @@ export const URL_METEO_DATA = 'https://api.meteo.cat/pronostic/v1/municipalHorar
 export const accessToken = "pk.eyJ1IjoibWFhcmM0IiwiYSI6ImNsZjNxcHVmNjBlcHEzdG8xYnBzZG1oOXoifQ.HU4tsuentBBjYmhmQP42ig";
 
 // AIR QUALITY TOKEN -> Se tiene que renovar cada mes para la versión gratuita
-export const airToken = "533b710538b9e96873913b46b4741a26fb0677d3f2d5e8dbd0189c3a415c6e6d";
+export const airToken = "b4902c258ebe963f8e620c48f7d3590247f296cf74936358346f63bc41847006";
 
 // METEOCAT TOKEN -> Versión gratuita de 3 meses con 100 requests al mes
 export const meteoToken = "Us2Gn7nB5x7esJz9e3HV25J5pcHfhd3layf7wPRM";
